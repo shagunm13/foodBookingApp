@@ -4,7 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Register from "./component/register";
 import Login from "./component/login";
-import Dashboard from "./component/dashboard";
+import UserDashboard from "./component/userdashboard";
+import EmployeeDashboard from "./component/employeedashboard";
+import BookingDetails from "./component/bookingdetails";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -12,12 +14,19 @@ export default class App extends React.Component {
     // fetch("http://192.168.31.128:8080/user/");
   }
   render() {
+    console.log(this);
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route exact path="/register" component={Register} />
+          <Route exact path="/bookingdetails" component={BookingDetails} />
+          <Route exact path="/userdashboard" component={UserDashboard} />
+          <Route
+            exact
+            path="/employeedashboard"
+            component={EmployeeDashboard}
+          />
         </Switch>
       </Router>
     );

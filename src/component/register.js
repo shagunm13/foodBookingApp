@@ -2,6 +2,8 @@ import React from "react";
 import { httpRequest } from "../constant";
 import { Link } from "react-router-dom";
 
+import MapLocation from "./googlemap";
+
 export default class Register extends React.Component {
   initalUserObj = {
     name: "",
@@ -10,11 +12,25 @@ export default class Register extends React.Component {
     phone: "",
     community: "",
     message: "",
+    location: {
+      latitude: "",
+      longitude: "",
+    },
   };
 
   state = {
     user: this.props.user || { ...this.initalUserObj },
     isUpdateMode: this.props.mode,
+    lat: "",
+    lng: "",
+  };
+
+  handleCurrentLocation = (latitude, longitude) => {
+    let { user } = { ...this.state };
+    user.location["latitude"] = latitude;
+    user.location["longitude"] = longitude;
+    this.setState({ user: user });
+    this.setState({ lat: latitude, lng: longitude });
   };
 
   setNewValue = (e) => {
@@ -142,6 +158,9 @@ export default class Register extends React.Component {
           <Link to="/login">Login</Link>
         </div>
         <div>{this.state.message}</div>
+        <div style={{ marginLeft: 50 }}>
+          <MapLocation onCurrentLocation={this.handleCurrentLocation} />
+        </div>
       </React.Fragment>
     );
   }

@@ -20,7 +20,11 @@ export default class Login extends React.Component {
       .then((data) => {
         if (data.status == "200") {
           console.log("success");
-          this.props.history.replace("/");
+          if (data.body.community == "User") {
+            this.props.history.replace("/userdashboard");
+          } else {
+            this.props.history.replace("/employeedashboard");
+          }
         } else {
           this.setState({ error: data.message });
         }

@@ -1,6 +1,6 @@
 import React from "react";
 import { httpRequest } from "../constant";
-export default class Dashboard extends React.Component {
+export default class UserDashboard extends React.Component {
   state = {
     booking: {
       bookingNo: Math.floor(new Date().valueOf() * Math.random()),
@@ -14,7 +14,8 @@ export default class Dashboard extends React.Component {
 
   saveBookingDetails = (event) => {
     let booking = this.state.booking;
-    booking.price = this.state.price - this.state.price * this.state.discount;
+    booking.price =
+      this.state.price - (this.state.price * this.state.discount) / 100;
 
     const data = httpRequest("/booking/create", booking);
 
