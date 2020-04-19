@@ -32,11 +32,11 @@ export class MapContainer extends Component {
           id={index}
           position={{
             //Actual co-ordinates
-            // lat: detail.user.location.latitude,
-            // lng: detail.user.location.longitude,
+            lat: detail.user.location.latitude,
+            lng: detail.user.location.longitude,
             // for testing purpose
-            lat: this.state.stores[index].latitude,
-            lng: this.state.stores[index].longitude,
+            // lat: this.state.stores[index].latitude,
+            //lng: this.state.stores[index].longitude,
           }}
           onClick={() => this.onMarkerClick(detail)}
           name={"Drop Location"}

@@ -61,11 +61,11 @@ export default class Dashboard extends React.Component {
 
   inRadius = (booking, radius, index) => {
     // for testing purpose
-    const bLat = this.state.stores[index].latitude;
-    const bLong = this.state.stores[index].longitude;
+    // const bLat = this.state.stores[index].latitude;
+    // const bLong = this.state.stores[index].longitude;
     // actual coordiates
-    // const bLat = booking.user.location.latitude;
-    // const bLong = booking.user.location.longitude;
+    const bLat = booking.user.location.latitude;
+    const bLong = booking.user.location.longitude;
 
     const user = JSON.parse(localStorage.getItem("user"));
     const uLat = user.location.latitude;
