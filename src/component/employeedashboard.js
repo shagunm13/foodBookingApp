@@ -7,6 +7,14 @@ export default class Dashboard extends React.Component {
     bookingType: "All",
     radius: undefined,
     bookingsToDisplay: [],
+    stores: [
+      { latitude: 12.971726, longitude: 77.750073 },
+      { latitude: 12.979139, longitude: 77.751406 },
+      { latitude: 12.983606, longitude: 77.753699 },
+      { latitude: 12.987084, longitude: 77.75384 },
+      { latitude: 12.956831, longitude: 77.702858 },
+      { latitude: 12.956831, longitude: 77.702858 },
+    ],
   };
 
   componentDidMount() {
@@ -26,7 +34,7 @@ export default class Dashboard extends React.Component {
       });
   }
 
-  filterBookingDetails = () => {
+  filterBookingDetails = (event) => {
     const { bookingType, radius } = this.state;
 
     let bookingsToDisplay = [...this.state.bookings];
@@ -42,11 +50,39 @@ export default class Dashboard extends React.Component {
 
     if (Boolean(radius)) {
       bookingsToDisplay = bookingsToDisplay.filter(
-        (booking) => booking && true //Todo: radius calc here
+        (booking, index) => booking && this.inRadius(booking, radius, index)
       );
     }
 
     this.setState({ bookingsToDisplay: bookingsToDisplay });
+
+    event.preventDefault();
+  };
+
+  inRadius = (booking, radius, index) => {
+    // for testing purpose
+    const bLat = this.state.stores[index].latitude;
+    const bLong = this.state.stores[index].longitude;
+    // actual coordiates
+    // const bLat = booking.user.location.latitude;
+    // const bLong = booking.user.location.longitude;
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const uLat = user.location.latitude;
+    const uLong = user.location.longitude;
+    return (
+      Math.acos(
+        Math.cos(toRadian(uLat)) *
+          Math.cos(toRadian(bLat)) *
+          Math.cos(toRadian(bLong) - toRadian(uLong)) +
+          Math.sin(toRadian(uLat)) * Math.sin(toRadian(bLat))
+      ) <=
+      radius / 6371.0
+    );
+
+    function toRadian(degree) {
+      return degree * (Math.PI / 180);
+    }
   };
 
   render() {
@@ -59,7 +95,7 @@ export default class Dashboard extends React.Component {
             id="bookingType"
             className="custom-select"
             value={this.state.bookingType}
-            onBlur={(e) => this.setState({ bookingType: e.target.value })}
+            onChange={(e) => this.setState({ bookingType: e.target.value })}
             required
           >
             <option value="All">All</option>
@@ -74,12 +110,12 @@ export default class Dashboard extends React.Component {
             className="form-control"
             maxlength="10"
             value={this.state.radius}
-            onBlur={(e) => this.setState({ radius: e.target.value })}
+            onChange={(e) => this.setState({ radius: e.target.value })}
           />
 
           <button
             type="submit"
-            onClick={() => this.filterBookingDetails()}
+            onClick={(e) => this.filterBookingDetails(e)}
             className="btn btn-success"
           >
             Filter

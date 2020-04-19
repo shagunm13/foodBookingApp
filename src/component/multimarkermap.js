@@ -11,20 +11,32 @@ export class MapContainer extends Component {
     showingInfoWindow: false, //Hides or the shows the infoWindow
     activeMarker: {}, //Shows the active marker upon click
     selectedPlace: {}, //Shows the infoWindow to the selected place upon a marker
-    stores: [],
+    stores: [
+      { latitude: 12.971726, longitude: 77.750073 },
+      { latitude: 12.979139, longitude: 77.751406 },
+      { latitude: 12.983606, longitude: 77.753699 },
+      { latitude: 12.987084, longitude: 77.75384 },
+      { latitude: 12.956831, longitude: 77.702858 },
+      { latitude: 12.956831, longitude: 77.702858 },
+    ],
     userDetails: {},
   };
 
   displayMarkers = () => {
     const { markerToDisplay } = this.props;
+
     return markerToDisplay.map((detail, index) => {
       return (
         <Marker
           key={index}
           id={index}
           position={{
-            lat: detail.user.location.latitude,
-            lng: detail.user.location.longitude,
+            //Actual co-ordinates
+            // lat: detail.user.location.latitude,
+            // lng: detail.user.location.longitude,
+            // for testing purpose
+            lat: this.state.stores[index].latitude,
+            lng: this.state.stores[index].longitude,
           }}
           onClick={() => this.onMarkerClick(detail)}
           name={"Drop Location"}
